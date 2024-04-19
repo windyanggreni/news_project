@@ -195,7 +195,6 @@ class _PageEditPegawaiState extends State<PageEditPegawai> {
 
   @override
   void dispose() {
-    // Pastikan untuk membersihkan controller
     txtNamaLengkap.dispose();
     txtEmail.dispose();
     txtNoBP.dispose();

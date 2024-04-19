@@ -62,10 +62,10 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image.asset('gambar/logo.png', width: 200), // Ganti dengan path yang benar
+              Image.asset('gambar/logo.png', width: 200),
               SizedBox(height: 20),
               Text(
-                'Welcome Windy'
+                //'Welcome Windy'
                 'Create Your Own Application',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),

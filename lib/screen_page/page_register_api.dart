@@ -89,13 +89,13 @@ class _PageRegisterApiState extends State<PageRegisterApi> {
               children: [
                 SizedBox(height: 10),
                 Padding(
-                  padding: EdgeInsets.all(20), // Sesuaikan jarak sesuai kebutuhan
+                  padding: EdgeInsets.all(20),
                   child: Text(
                     'REGISTER',
                     style: TextStyle(
-                      fontSize: 30, // Ubah sesuai kebutuhan
+                      fontSize: 30,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(5, 25, 54, 1.0), // Warna biru donker
+                      color: Color.fromRGBO(5, 25, 54, 1.0),
                     ),
                     textAlign: TextAlign.center,
                   ),

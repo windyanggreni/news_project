@@ -80,13 +80,13 @@ class _PageLoginApiState extends State<PageLoginApi> {
               children: [
                 SizedBox(height: 20),
                 Padding(
-                  padding: EdgeInsets.all(45), // Sesuaikan jarak sesuai kebutuhan
+                  padding: EdgeInsets.all(45),
                   child: Text(
                     'LOGIN',
                     style: TextStyle(
-                      fontSize: 44, // Ubah sesuai kebutuhan
+                      fontSize: 44,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(5, 25, 54, 1.0), // Warna biru donker
+                      color: Color.fromRGBO(5, 25, 54, 1.0),
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -137,15 +137,15 @@ class _PageLoginApiState extends State<PageLoginApi> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green, // Mengatur warna latar belakang tombol menjadi biru
+                      backgroundColor: Colors.green,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15), // Mengatur sudut tombol
+                        borderRadius: BorderRadius.circular(15),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20), // Padding tombol
+                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                     ),
                     child: Text(
                       'Login',
-                      style: TextStyle(fontSize: 18, color: Colors.white), // Ukuran teks dan warna teks tombol
+                      style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
                   ),
                 ),
