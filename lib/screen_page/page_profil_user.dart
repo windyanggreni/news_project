@@ -61,11 +61,10 @@ class _PageProfileUserState extends State<PageProfileUser> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Profile',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          'Profile User',
+          style: TextStyle(color: Colors.white),
         ),
+        backgroundColor: Color.fromRGBO(5, 25, 54, 1.0),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -150,6 +149,8 @@ class _PageProfileUserState extends State<PageProfileUser> {
                     });
                   },
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.lightBlue,
+
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -158,6 +159,7 @@ class _PageProfileUserState extends State<PageProfileUser> {
                   child: Text(
                     'Edit Profile',
                     style: TextStyle(
+                      color: Colors.white,
                       fontSize: 15,
                     ),
                   ),
@@ -259,9 +261,7 @@ class _PageEditProfileState extends State<PageEditProfile> {
   }
 
   void updateDatabase(String nama, String email, String nohp) {
-    // Implementasi logika untuk mengupdate data di database
+    //db
   }
 
-  //TES
-//tes2
 }

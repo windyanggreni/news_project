@@ -54,10 +54,13 @@ class _PageListBeritaState extends State<PageListBerita> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Aplikasi Berita'),
-        backgroundColor: Colors.cyan,
+        title: Text(
+          'List Berita',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Color.fromRGBO(5, 25, 54, 1.0),
         actions: [
-          TextButton(onPressed: () {}, child: Text('Hi ... ${session.userName}')),
+          TextButton(onPressed: () {}, child: Text('Hi ... ${session.userName}', style: TextStyle(color: Colors.deepOrangeAccent), )),
           // Logout
           IconButton(
             onPressed: () {

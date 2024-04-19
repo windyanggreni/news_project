@@ -65,10 +65,10 @@ class _PageLoginApiState extends State<PageLoginApi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.cyan,
-        title: Text('Form Login'),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.cyan,
+      //   title: Text('Form Login'),
+      // ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -78,6 +78,19 @@ class _PageLoginApiState extends State<PageLoginApi> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                SizedBox(height: 20),
+                Padding(
+                  padding: EdgeInsets.all(45), // Sesuaikan jarak sesuai kebutuhan
+                  child: Text(
+                    'LOGIN',
+                    style: TextStyle(
+                      fontSize: 44, // Ubah sesuai kebutuhan
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(5, 25, 54, 1.0), // Warna biru donker
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
                 SizedBox(height: 20),
                 Row(
                   children: [
@@ -123,9 +136,20 @@ class _PageLoginApiState extends State<PageLoginApi> {
                         loginAccount();
                       }
                     },
-                    child: Text('Login'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green, // Mengatur warna latar belakang tombol menjadi biru
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15), // Mengatur sudut tombol
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20), // Padding tombol
+                    ),
+                    child: Text(
+                      'Login',
+                      style: TextStyle(fontSize: 18, color: Colors.white), // Ukuran teks dan warna teks tombol
+                    ),
                   ),
                 ),
+
               ],
             ),
           ),

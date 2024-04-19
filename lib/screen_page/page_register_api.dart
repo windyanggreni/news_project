@@ -75,10 +75,10 @@ class _PageRegisterApiState extends State<PageRegisterApi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.cyan,
-        title: Text('Form  Register'),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.cyan,
+      //   title: Text('Form  Register'),
+      // ),
       body: Form(
         key: keyForm,
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -87,6 +87,19 @@ class _PageRegisterApiState extends State<PageRegisterApi> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                SizedBox(height: 10),
+                Padding(
+                  padding: EdgeInsets.all(20), // Sesuaikan jarak sesuai kebutuhan
+                  child: Text(
+                    'REGISTER',
+                    style: TextStyle(
+                      fontSize: 30, // Ubah sesuai kebutuhan
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(5, 25, 54, 1.0), // Warna biru donker
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
                 SizedBox(height: 20,),
                 TextFormField(
                   validator: (val) {

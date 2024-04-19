@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../Model/ModelBerita.dart'; // Pastikan path ini sesuai dengan lokasi ModelBerita Anda
+import '../Model/ModelBerita.dart';
 
 class DetailBeritaPage extends StatelessWidget {
-  final Datum? berita; // Menggunakan tipe Datum dari ModelBerita
+  final Datum? berita;
 
   const DetailBeritaPage(this.berita, {Key? key}) : super(key: key);
 
@@ -12,10 +12,9 @@ class DetailBeritaPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(berita?.judul ?? "Detail Berita"),
       ),
-      body: SingleChildScrollView( // Gunakan SingleChildScrollView untuk menghindari overflow pada layar kecil atau konten yang panjang
-        child: Column(
+      body: SingleChildScrollView(         child: Column(
           children: [
-            if (berita?.gambar != null) // Tampilkan gambar jika URL tersedia
+            if (berita?.gambar != null)
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ClipRRect(

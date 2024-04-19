@@ -5,12 +5,12 @@ import 'package:windy_latihansatu/screen_page/page_bottom_navigation.dart';
 import 'package:windy_latihansatu/screen_page/page_update_pegawai.dart';
 import '../Model/ModelPegawai.dart';
 
-class PageKaryawan extends StatefulWidget {
+class PagePegawai extends StatefulWidget {
   @override
-  State<PageKaryawan> createState() => _PageKaryawanState();
+  State<PagePegawai> createState() => _PagePegawaiState();
 }
 
-class _PageKaryawanState extends State<PageKaryawan> {
+class _PagePegawaiState extends State<PagePegawai> {
   List<Datum> pegawaiList = [];
   List<Datum> filteredPegawaiList = [];
   TextEditingController txtCari = TextEditingController();
@@ -67,11 +67,10 @@ class _PageKaryawanState extends State<PageKaryawan> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Data Karyawan',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        'List Pegawai',
+        style: TextStyle(color: Colors.white),
+    ),
+    backgroundColor: Color.fromRGBO(5, 25, 54, 1.0),
         centerTitle: true,
       ),
       body: Column(
@@ -81,7 +80,7 @@ class _PageKaryawanState extends State<PageKaryawan> {
             child: TextField(
               controller: txtCari,
               decoration: InputDecoration(
-                hintText: 'Cari karyawan...',
+                hintText: 'Cari Pegawai...',
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -166,7 +165,7 @@ class _PageKaryawanState extends State<PageKaryawan> {
                           children: [
                             IconButton(
                               onPressed: () {
-                                // Hapus data karyawan
+                                // Hapus data Pegawai
                                 showDialog(
                                   context: context,
                                   builder: (context) => AlertDialog(
@@ -181,10 +180,10 @@ class _PageKaryawanState extends State<PageKaryawan> {
                                       ),
                                       TextButton(
                                         onPressed: () {
-                                          // Kirim request untuk menghapus data karyawan
+                                          // Kirim request untuk menghapus data Pegawai
                                           http.post(
                                             Uri.parse('http://192.168.43.124/edukasi_server/deletePegawai.php'),
-                                            body: {'id': entry.value.id.toString()}, // Kirim ID karyawan yang akan dihapus
+                                            body: {'id': entry.value.id.toString()}, // Kirim ID Pegawai yang akan dihapus
                                           ).then((response) {
                                             // Memeriksa respons dari server
                                             if (response.statusCode == 200) {
@@ -270,17 +269,17 @@ class _PageKaryawanState extends State<PageKaryawan> {
                             ),
                             IconButton(
                               onPressed: () {
-                                // Edit data karyawan
+                                // Edit data Pegawai
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => PageEditKaryawan( data: entry.value),
+                                    builder: (context) => PageEditPegawai( data: entry.value),
                                   ),
                                 ).then((updatedData) {
                                   if (updatedData != null) {
-                                    // Perbarui data karyawan yang ada dengan data yang telah diubah
+                                    // Perbarui data Pegawai yang ada dengan data yang telah diubah
                                     setState(() {
-                                      // Cari indeks data karyawan yang diperbarui
+                                      // Cari indeks data Pegawai yang diperbarui
                                       int dataIndex = filteredPegawaiList.indexWhere((pegawai) => pegawai.id == updatedData.id);
                                       if (dataIndex != -1) {
                                         filteredPegawaiList[dataIndex] = updatedData;
@@ -307,7 +306,7 @@ class _PageKaryawanState extends State<PageKaryawan> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => PageTambahKaryawan()),
+            MaterialPageRoute(builder: (context) => PageTambahPegawai()),
           );
         },
         child: Icon(Icons.add),
@@ -318,14 +317,14 @@ class _PageKaryawanState extends State<PageKaryawan> {
   }
 }
 
-class PageTambahKaryawan extends StatefulWidget {
-  const PageTambahKaryawan({Key? key});
+class PageTambahPegawai extends StatefulWidget {
+  const PageTambahPegawai({Key? key});
 
   @override
-  State<PageTambahKaryawan> createState() => _PageTambahKaryawanState();
+  State<PageTambahPegawai> createState() => _PageTambahPegawaiState();
 }
 
-class _PageTambahKaryawanState extends State<PageTambahKaryawan> {
+class _PageTambahPegawaiState extends State<PageTambahPegawai> {
   TextEditingController txtNamaLengkap = TextEditingController();
   TextEditingController txtEmail = TextEditingController();
   TextEditingController txtNoBP = TextEditingController();
@@ -337,7 +336,7 @@ class _PageTambahKaryawanState extends State<PageTambahKaryawan> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: Text('Tambah Data Karyawan'),
+        title: Text('Tambah Data Pegawai'),
       ),
       body: Form(
         key: keyForm,
@@ -412,8 +411,8 @@ class _PageTambahKaryawanState extends State<PageTambahKaryawan> {
                 ElevatedButton(
                   onPressed: () {
                     if (keyForm.currentState?.validate() == true) {
-                      // Membuat objek data karyawan dari input pengguna
-                      var dataKaryawan = {
+                      // Membuat objek data Pegawai dari input pengguna
+                      var dataPegawai = {
                         'nama': txtNamaLengkap.text,
                         'nobp': txtNoBP.text,
                         'email': txtEmail.text,
@@ -423,7 +422,7 @@ class _PageTambahKaryawanState extends State<PageTambahKaryawan> {
                       // Mengirim data ke server
                       http.post(
                         Uri.parse('http://192.168.43.124/edukasi_server/simpanPegawai.php'),
-                        body: dataKaryawan,
+                        body: dataPegawai,
                       ).then((response) {
                         // Memeriksa respons dari server
                         if (response.statusCode == 200) {
@@ -435,11 +434,11 @@ class _PageTambahKaryawanState extends State<PageTambahKaryawan> {
                               builder: (context) {
                                 return AlertDialog(
                                   title: Text("Sukses"),
-                                  content: Text("Data karyawan berhasil disimpan"),
+                                  content: Text("Data Pegawai berhasil disimpan"),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
-                                        // Kembali ke halaman sebelumnya sampai dengan halaman PageKaryawan
+                                        // Kembali ke halaman sebelumnya sampai dengan halaman PagePegawai
                                         Navigator.pushAndRemoveUntil(
                                           context,
                                           MaterialPageRoute(builder: (context) => PageBottomNavigationBar()),

@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../Model/ModelPegawai.dart';
 
-class PageEditKaryawan extends StatefulWidget {
+class PageEditPegawai extends StatefulWidget {
   final Datum data;
 
-  const PageEditKaryawan({Key? key, required this.data}) : super(key: key);
+  const PageEditPegawai({Key? key, required this.data}) : super(key: key);
 
   @override
-  State<PageEditKaryawan> createState() => _PageEditKaryawanState();
+  State<PageEditPegawai> createState() => _PageEditPegawaiState();
 }
 
-class _PageEditKaryawanState extends State<PageEditKaryawan> {
+class _PageEditPegawaiState extends State<PageEditPegawai> {
   late TextEditingController txtNamaLengkap;
   late TextEditingController txtEmail;
   late TextEditingController txtNoBP;
@@ -33,7 +33,7 @@ class _PageEditKaryawanState extends State<PageEditKaryawan> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: Text('Edit Data Karyawan'),
+        title: Text('Edit Data Pegawai'),
         centerTitle: true,
       ),
       body: Form(

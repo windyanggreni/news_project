@@ -16,7 +16,7 @@ class _PageBottomNavigationBarState extends State<PageBottomNavigationBar> with 
   @override
   void initState(){
     super.initState();
-    tabController = TabController(length: 4, vsync: this); // Ubah length menjadi 4 karena menambahkan satu tab baru
+    tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -26,10 +26,8 @@ class _PageBottomNavigationBarState extends State<PageBottomNavigationBar> with 
         controller: tabController,
         children: [
           PageListBerita(),
-          PageKaryawan(),
-          //CustomeGrid(),
+          PagePegawai(),
           PageProfileUser(),
-           // Tambahkan PageListBerita sebagai salah satu tab
         ],
       ),
       bottomNavigationBar: BottomAppBar(
@@ -44,15 +42,13 @@ class _PageBottomNavigationBarState extends State<PageBottomNavigationBar> with 
               icon: Icon(Icons.article),
             ),
             Tab(
-              text: "List Pegawai", // Tambahkan label untuk tab baru
+              text: "List Pegawai",
               icon: Icon(Icons.group),
             ),
             Tab(
               text: "Profil User",
               icon: Icon(Icons.person),
             ),
-
-
           ],
         ),
       ),
