@@ -32,7 +32,7 @@ class _PageEditPegawaiState extends State<PageEditPegawai> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Color.fromRGBO(5, 25, 54, 1.0),
         title: Text('Edit Data Pegawai'),
         centerTitle: true,
       ),
@@ -99,7 +99,7 @@ class _PageEditPegawaiState extends State<PageEditPegawai> {
                     if (keyForm.currentState?.validate() == true) {
                       // Kirim data perubahan ke server
                       http.post(
-                        Uri.parse('http://192.168.43.124/edukasi_server/updatePegawai.php'),
+                        Uri.parse('http://192.168.43.124/edukasi_server2/updatePegawai.php'),
                         body: {
                           'id': widget.data.id.toString(),
                           'nama': txtNamaLengkap.text,

@@ -1,48 +1,6 @@
-// // To parse this JSON data, do
-// //
-// //     final modelLogin = modelLoginFromJson(jsonString);
-//
-// import 'dart:convert';
-//
-// ModelLogin modelLoginFromJson(String str) => ModelLogin.fromJson(json.decode(str));
-//
-// String modelLoginToJson(ModelLogin data) => json.encode(data.toJson());
-//
-// class ModelLogin {
-//   int value;
-//   String message;
-//   String username;
-//   String fullname;
-//   String id;
-//
-//   ModelLogin({
-//     required this.value,
-//     required this.message,
-//     required this.username,
-//     required this.fullname,
-//     required this.id,
-//   });
-//
-//   factory ModelLogin.fromJson(Map<String, dynamic> json) => ModelLogin(
-//     value: json["value"],
-//     message: json["message"],
-//     username: json["username"],
-//     fullname: json["fullname"],
-//     id: json["id"],
-//   );
-//
-//   Map<String, dynamic> toJson() => {
-//     "value": value,
-//     "message": message,
-//     "username": username,
-//     "fullname": fullname,
-//     "id": id,
-//   };
-// }
-
 // To parse this JSON data, do
 //
-//     final modelLogin1 = modelLogin1FromJson(jsonString);
+//     final modelLogin = modelLoginFromJson(jsonString);
 
 import 'dart:convert';
 
@@ -55,6 +13,9 @@ class ModelLogin {
   String message;
   String username;
   String nama;
+  String email;
+  String nohp;
+  String password;
   String id;
 
   ModelLogin({
@@ -62,6 +23,9 @@ class ModelLogin {
     required this.message,
     required this.username,
     required this.nama,
+    required this.email,
+    required this.nohp,
+    required this.password,
     required this.id,
   });
 
@@ -70,6 +34,9 @@ class ModelLogin {
     message: json["message"],
     username: json["username"],
     nama: json["nama"],
+    email: json["email"],
+    nohp: json["nohp"],
+    password: json["password"],
     id: json["id"],
   );
 
@@ -78,6 +45,9 @@ class ModelLogin {
     "message": message,
     "username": username,
     "nama": nama,
+    "email": email,
+    "nohp": nohp,
+    "password": password,
     "id": id,
   };
 }

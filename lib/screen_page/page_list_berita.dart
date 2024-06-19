@@ -17,7 +17,7 @@ class _PageListBeritaState extends State<PageListBerita> {
   TextEditingController searchController = TextEditingController();
   List<Datum>? beritaList;
   String? username;
-  List<Datum>? filteredBeritaList; // List berita hasil filter
+  List<Datum>? filteredBeritaList;
 
   @override
   void initState() {
@@ -29,7 +29,7 @@ class _PageListBeritaState extends State<PageListBerita> {
   Future getDataSession() async {
     await Future.delayed(const Duration(seconds: 1), () {
       session.getSession().then((value) {
-        print('data sesi .. ' + value.toString());
+        print('data sesi .. ' + session.userName.toString());
         username = session.userName;
       });
     });
@@ -37,9 +37,8 @@ class _PageListBeritaState extends State<PageListBerita> {
 
   Future<List<Datum>?> getBerita() async {
     try {
-      // Berhasil
       http.Response response = await http.get(
-        Uri.parse("http://192.168.43.124/edukasi_server/getBerita.php"),
+        Uri.parse("http://192.168.43.124/edukasi_server2/getBerita.php"),
       );
 
       return modelBeritaFromJson(response.body).data;
@@ -54,27 +53,42 @@ class _PageListBeritaState extends State<PageListBerita> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'List Berita',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Color.fromRGBO(5, 25, 54, 1.0),
+        backgroundColor: Colors.blue.shade900, // Start color of the gradient
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.purple.shade900, Colors.purple.shade600],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+        ),
         actions: [
-          TextButton(onPressed: () {}, child: Text('Hi ... ${session.userName}', style: TextStyle(color: Colors.deepOrangeAccent), )),
-          // Logout
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Center(
+              child: Text(
+                'Hi, ${session.userName}',
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
           IconButton(
             onPressed: () {
-              // Clear session
               setState(() {
                 session.clearSession();
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => PageLoginApi()),
+                  MaterialPageRoute(builder: (context) => const PageLoginApi()),
                       (route) => false,
                 );
               });
             },
-            icon: Icon(Icons.exit_to_app),
+            icon: const Icon(Icons.exit_to_app, color: Colors.white70),
             tooltip: 'Logout',
           )
         ],
@@ -82,23 +96,19 @@ class _PageListBeritaState extends State<PageListBerita> {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: TextField(
               controller: searchController,
               onChanged: (value) {
                 setState(() {
                   filteredBeritaList = beritaList
                       ?.where((element) =>
-                  element.judul!
-                      .toLowerCase()
-                      .contains(value.toLowerCase()) ||
-                      element.berita!
-                          .toLowerCase()
-                          .contains(value.toLowerCase()))
+                  element.judul!.toLowerCase().contains(value.toLowerCase()) ||
+                      element.konten!.toLowerCase().contains(value.toLowerCase()))
                       .toList();
                 });
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Search",
                 hintText: "Search",
                 prefixIcon: Icon(Icons.search),
@@ -111,8 +121,7 @@ class _PageListBeritaState extends State<PageListBerita> {
           Expanded(
             child: FutureBuilder(
               future: getBerita(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<Datum>?> snapshot) {
+              builder: (BuildContext context, AsyncSnapshot<List<Datum>?> snapshot) {
                 if (snapshot.hasData) {
                   beritaList = snapshot.data;
                   if (filteredBeritaList == null) {
@@ -123,7 +132,7 @@ class _PageListBeritaState extends State<PageListBerita> {
                     itemBuilder: (context, index) {
                       Datum data = filteredBeritaList![index];
                       return Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -134,36 +143,46 @@ class _PageListBeritaState extends State<PageListBerita> {
                             );
                           },
                           child: Card(
+                            elevation: 5,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Padding(
-                                  padding: EdgeInsets.all(4),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Image.network('http://192.168.43.124/edukasi_server/gambar_berita/${data.gambar}',
-                                      fit: BoxFit.fill,
-                                    ),
-                                  )
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+                                  child: Image.network(
+                                    'http://192.168.43.124/edukasi_server2/gambar_berita/${data.gambar}',
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                                ListTile(
-                                  title: Text(
-                                    '${data.judul}',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.orange,
-                                      fontSize: 18,
-                                    ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        data.judul ?? '',
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.deepPurple,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        data.konten ?? '',
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black87,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  subtitle: Text(
-                                    '${data.berita}',
-                                    maxLines: 2,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                )
+                                ),
                               ],
                             ),
                           ),

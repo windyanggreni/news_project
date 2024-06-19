@@ -25,7 +25,7 @@ class _PageRegisterApiState extends State<PageRegisterApi> {
         isLoading = true;
       });
       http.Response response = await http.post(
-        Uri.parse("http://192.168.43.124/edukasi_server/register.php"),
+        Uri.parse("http://192.168.43.124/edukasi_server2/register.php"),
         body: {
           "nama": txtNama.text,
           "username": txtUsername.text,
@@ -75,133 +75,152 @@ class _PageRegisterApiState extends State<PageRegisterApi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.cyan,
-      //   title: Text('Form  Register'),
-      // ),
-      body: Form(
-        key: keyForm,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.purple.shade900, Colors.purple.shade600],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: 10),
-                Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Text(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: keyForm,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
                     'REGISTER',
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 48,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(5, 25, 54, 1.0),
+                      color: Colors.white,
+                      letterSpacing: 1.2,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                ),
-                SizedBox(height: 20,),
-                TextFormField(
-                  validator: (val) {
-                    return val!.isEmpty ? "tidak boleh kosong " : null;
-                  },
-                  controller: txtNama,
-                  decoration: InputDecoration(
-                    hintText: 'Input Full Name',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                  SizedBox(height: 30),
+                  buildTextField(
+                    controller: txtNama,
+                    hintText: 'Full Name',
+                    icon: Icons.person,
+                  ),
+                  SizedBox(height: 20),
+                  buildTextField(
+                    controller: txtUsername,
+                    hintText: 'Username',
+                    icon: Icons.account_circle,
+                  ),
+                  SizedBox(height: 20),
+                  buildTextField(
+                    controller: txtPassword,
+                    hintText: 'Password',
+                    icon: Icons.lock,
+                    obscureText: true,
+                  ),
+                  SizedBox(height: 20),
+                  buildTextField(
+                    controller: txtEmail,
+                    hintText: 'Email',
+                    icon: Icons.email,
+                  ),
+                  SizedBox(height: 20),
+                  buildTextField(
+                    controller: txtNohp,
+                    hintText: 'Phone Number',
+                    icon: Icons.phone,
+                  ),
+                  SizedBox(height: 30),
+                  Center(
+                    child: isLoading
+                        ? CircularProgressIndicator(color: Colors.white)
+                        : ElevatedButton(
+                      onPressed: () {
+                        if (keyForm.currentState?.validate() == true) {
+                          setState(() {
+                            registerAccount();
+                          });
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.purple.shade900,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 40),
+                      ),
+                      child: Text(
+                        'Register',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 8,),
-                TextFormField(
-                  validator: (val) {
-                    return val!.isEmpty ? "tidak boleh kosong " : null;
-                  },
-                  controller: txtUsername,
-                  decoration: InputDecoration(
-                    hintText: 'Input Username',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                  SizedBox(height: 30),
+                  Center(
+                    child: Text(
+                      'Already have an account?',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 8,),
-                TextFormField(
-                  validator: (val) {
-                    return val!.isEmpty ? "tidak boleh kosong " : null;
-                  },
-                  controller: txtPassword,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintText: 'Input Password',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                  Center(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => PageLoginApi()),
+                        );
+                      },
+                      child: Text(
+                        'Login here',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 8,),
-                TextFormField(
-                  validator: (val) {
-                    return val!.isEmpty ? "tidak boleh kosong " : null;
-                  },
-                  controller: txtEmail,
-                  decoration: InputDecoration(
-                    hintText: 'Input Email',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8,),
-                TextFormField(
-                  validator: (val) {
-                    return val!.isEmpty ? "tidak boleh kosong " : null;
-                  },
-                  controller: txtNohp,
-                  decoration: InputDecoration(
-                    hintText: 'Input Phone Number',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 15,),
-                Center(
-                  child: isLoading ? Center(
-                    child: CircularProgressIndicator(),
-                  ) : MaterialButton(
-                    onPressed: () {
-                      if (keyForm.currentState?.validate() == true) {
-                        setState(() {
-                          registerAccount();
-                        });
-                      }
-                    },
-                    child: Text('Register'),
-                    color: Colors.green,
-                    textColor: Colors.white,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(10),
-        child: MaterialButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: BorderSide(width: 1, color: Colors.green),
-          ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => PageLoginApi()),
-            );
-          },
-          child: Text('Anda sudah punya account? Silakan Login'),
+    );
+  }
+
+  Widget buildTextField({
+    required TextEditingController controller,
+    required String hintText,
+    required IconData icon,
+    bool obscureText = false,
+  }) {
+    return TextFormField(
+      controller: controller,
+      obscureText: obscureText,
+      validator: (val) => val!.isEmpty ? 'Cannot be empty' : null,
+      style: TextStyle(color: Colors.white),
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: TextStyle(color: Colors.white54),
+        prefixIcon: Icon(icon, color: Colors.white),
+        filled: true,
+        fillColor: Colors.white.withOpacity(0.1),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide.none,
         ),
       ),
     );

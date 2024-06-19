@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import '../utils/session_manager.dart';
 
 class SessionLatihanManager {
   int? value;
-  String? idUser, userName, Nama, email, nohp;
+  String? idUser, userName, Nama, email, nohp, password;
 
-  Future<void> saveSession(int val, String id, String username, String nama, String email, String nohp) async{
+  Future<void> saveSession(int val, String id, String username, String password, String nama, String email, String nohp) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.setInt("value", val);
     await sharedPreferences.setString("id", id);
@@ -15,7 +17,7 @@ class SessionLatihanManager {
     await sharedPreferences.setString("nohp", nohp);
   }
 
-  Future<void> getSession() async{
+  Future<void> getSession() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     value = sharedPreferences.getInt("value");
     idUser = sharedPreferences.getString("id");
@@ -25,7 +27,7 @@ class SessionLatihanManager {
     nohp = sharedPreferences.getString("nohp");
   }
 
-  Future<void> clearSession() async{
+  Future<void> clearSession() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.clear();
   }
@@ -62,10 +64,19 @@ class _PageProfileUserState extends State<PageProfileUser> {
       appBar: AppBar(
         title: Text(
           'Profile User',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Color.fromRGBO(5, 25, 54, 1.0),
+        backgroundColor: Colors.purple.shade900,
         centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blue.shade900, Colors.blue.shade600],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -76,7 +87,7 @@ class _PageProfileUserState extends State<PageProfileUser> {
               children: [
                 CircleAvatar(
                   radius: 45,
-                  backgroundColor: Colors.grey,
+                  backgroundColor: Colors.grey[300],
                   child: Icon(
                     Icons.person,
                     color: Colors.white,
@@ -88,7 +99,8 @@ class _PageProfileUserState extends State<PageProfileUser> {
                   '${isLoading ? 'Loading...' : session.Nama ?? 'Data tidak tersedia'}',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    fontSize: 22,
+                    color: Colors.black87,
                   ),
                 ),
                 SizedBox(height: 5),
@@ -150,7 +162,6 @@ class _PageProfileUserState extends State<PageProfileUser> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.lightBlue,
-
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -201,6 +212,16 @@ class _PageEditProfileState extends State<PageEditProfile> {
       appBar: AppBar(
         title: Text('Edit Profile'),
         centerTitle: true,
+        backgroundColor: Colors.purple.shade900,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blue.shade900, Colors.blue.shade600],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -212,6 +233,9 @@ class _PageEditProfileState extends State<PageEditProfile> {
                 controller: txtNama,
                 decoration: InputDecoration(
                   labelText: 'Nama',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
               SizedBox(height: 20),
@@ -219,6 +243,9 @@ class _PageEditProfileState extends State<PageEditProfile> {
                 controller: txtEmail,
                 decoration: InputDecoration(
                   labelText: 'Email',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
               SizedBox(height: 20),
@@ -226,6 +253,9 @@ class _PageEditProfileState extends State<PageEditProfile> {
                 controller: txtNoHP,
                 decoration: InputDecoration(
                   labelText: 'No. HP',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
               SizedBox(height: 20),
@@ -235,6 +265,7 @@ class _PageEditProfileState extends State<PageEditProfile> {
                     widget.session.value ?? 0,
                     widget.session.idUser ?? '',
                     widget.session.userName ?? '',
+                    widget.session.password ?? '',
                     txtNama.text,
                     txtEmail.text,
                     txtNoHP.text,
@@ -243,7 +274,20 @@ class _PageEditProfileState extends State<PageEditProfile> {
                     Navigator.pop(context);
                   });
                 },
-                child: Text('Simpan'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.lightBlue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                ),
+                child: Text(
+                  'Simpan',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                  ),
+                ),
               ),
             ],
           ),
@@ -260,8 +304,27 @@ class _PageEditProfileState extends State<PageEditProfile> {
     super.dispose();
   }
 
-  void updateDatabase(String nama, String email, String nohp) {
-    //db
-  }
+  void updateDatabase(String nama, String email, String nohp) async {
+    try {
+      String id = widget.session.idUser ?? '';
 
+      final response = await http.post(
+        Uri.parse('http://192.168.43.124/edukasi_server2/updateUser.php'),
+        body: {
+          'id': id,
+          'nama': nama,
+          'email': email,
+          'nohp': nohp,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('Data berhasil diperbarui');
+      } else {
+        print('Gagal memperbarui data. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Terjadi kesalahan: $e');
+    }
+  }
 }

@@ -24,7 +24,7 @@ class _PageLoginApiState extends State<PageLoginApi> {
         isLoading = true;
       });
       final http.Response response = await http.post(
-        Uri.parse('http://192.168.43.124/edukasi_server/login.php'),
+        Uri.parse('http://192.168.43.124/edukasi_server2/login.php'),
         body: {
           "username": txtUsername.text,
           "password": txtPassword.text,
@@ -34,7 +34,14 @@ class _PageLoginApiState extends State<PageLoginApi> {
       if (data.value == 1) {
         setState(() {
           isLoading = false;
-          session.saveSession(data.value ?? 0, data.id ?? "", data.username ?? "");
+          session.saveSession(
+            data.value ?? 0,
+            data.id ?? "",
+            data.username ?? "",
+            data.nama ?? "",
+            data.email ?? "",
+            data.nohp ?? "",
+          );
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('${data.message}')),
           );
@@ -65,107 +72,132 @@ class _PageLoginApiState extends State<PageLoginApi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.cyan,
-      //   title: Text('Form Login'),
-      // ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(height: 20),
-                Padding(
-                  padding: EdgeInsets.all(45),
-                  child: Text(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blue.shade900, Colors.blue.shade600],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
                     'LOGIN',
                     style: TextStyle(
-                      fontSize: 44,
+                      fontSize: 48,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromRGBO(5, 25, 54, 1.0),
+                      color: Colors.white,
+                      letterSpacing: 1.2,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                ),
-                SizedBox(height: 20),
-                Row(
-                  children: [
-                    Icon(Icons.person, color: Colors.grey),
-                    SizedBox(width: 8),
-                    Expanded(
-                      child: TextFormField(
-                        validator: (val) => val!.isEmpty ? "Tidak boleh kosong" : null,
-                        controller: txtUsername,
-                        decoration: InputDecoration(
-                          hintText: 'Input Username',
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                  SizedBox(height: 50),
+                  buildTextField(
+                    controller: txtUsername,
+                    hintText: 'Username',
+                    icon: Icons.person,
+                  ),
+                  SizedBox(height: 20),
+                  buildTextField(
+                    controller: txtPassword,
+                    hintText: 'Password',
+                    icon: Icons.lock,
+                    obscureText: true,
+                  ),
+                  SizedBox(height: 30),
+                  Center(
+                    child: isLoading
+                        ? CircularProgressIndicator(color: Colors.white)
+                        : ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          loginAccount();
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.blue.shade900,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 40),
+                      ),
+                      child: Text(
+                        'Login',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 16),
-                Row(
-                  children: [
-                    Icon(Icons.lock, color: Colors.grey),
-                    SizedBox(width: 8),
-                    Expanded(
-                      child: TextFormField(
-                        validator: (val) => val!.isEmpty ? "Tidak boleh kosong" : null,
-                        controller: txtPassword,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintText: 'Input Password',
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 16),
-                Center(
-                  child: isLoading
-                      ? CircularProgressIndicator()
-                      : ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        loginAccount();
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                    ),
-                    child: Text(
-                      'Login',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
                   ),
-                ),
-
-              ],
+                  SizedBox(height: 30),
+                  Center(
+                    child: Text(
+                      'Don\'t have an account?',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => PageRegisterApi()),
+                        );
+                      },
+                      child: Text(
+                        'Register here',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(10),
-        child: MaterialButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: BorderSide(width: 1, color: Colors.green),
-          ),
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => PageRegisterApi()));
-          },
-          child: Text('Anda belum punya account? Silakan Register'),
+    );
+  }
+
+  Widget buildTextField({
+    required TextEditingController controller,
+    required String hintText,
+    required IconData icon,
+    bool obscureText = false,
+  }) {
+    return TextFormField(
+      controller: controller,
+      obscureText: obscureText,
+      validator: (val) => val!.isEmpty ? 'Cannot be empty' : null,
+      style: TextStyle(color: Colors.white),
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: TextStyle(color: Colors.white54),
+        prefixIcon: Icon(icon, color: Colors.white),
+        filled: true,
+        fillColor: Colors.white.withOpacity(0.1),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide.none,
         ),
       ),
     );

@@ -20,7 +20,7 @@ class DetailBeritaPage extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
-                    'http://192.168.43.124/edukasi_server/gambar_berita/${berita!.gambar}',
+                    'http://192.168.43.124/edukasi_server2/gambar_berita/${berita!.gambar}',
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -38,7 +38,7 @@ class DetailBeritaPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                berita?.berita ?? "",
+                berita?.konten ?? "",
                 style: TextStyle(
                   fontSize: 16,
                 ),

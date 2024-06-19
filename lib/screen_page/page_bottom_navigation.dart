@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:windy_latihansatu/screen_page/page_list_pegawai.dart';
-import 'package:windy_latihansatu/screen_page/page_profil_user.dart';
 import 'package:windy_latihansatu/screen_page/page_list_berita.dart';
+import 'package:windy_latihansatu/screen_page/page_profil_user.dart';
 
 class PageBottomNavigationBar extends StatefulWidget {
   const PageBottomNavigationBar({Key? key}) : super(key: key);
@@ -10,13 +9,13 @@ class PageBottomNavigationBar extends StatefulWidget {
   State<PageBottomNavigationBar> createState() => _PageBottomNavigationBarState();
 }
 
-class _PageBottomNavigationBarState extends State<PageBottomNavigationBar> with SingleTickerProviderStateMixin{
+class _PageBottomNavigationBarState extends State<PageBottomNavigationBar> with SingleTickerProviderStateMixin {
   late TabController tabController;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    tabController = TabController(length: 4, vsync: this);
+    tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -26,32 +25,52 @@ class _PageBottomNavigationBarState extends State<PageBottomNavigationBar> with 
         controller: tabController,
         children: [
           PageListBerita(),
-          PagePegawai(),
           PageProfileUser(),
         ],
       ),
       bottomNavigationBar: BottomAppBar(
         child: TabBar(
-          isScrollable: true,
+          controller: tabController,
           labelColor: Colors.black,
           unselectedLabelColor: Colors.grey,
-          controller: tabController,
-          tabs: const [
+          tabs: [
             Tab(
-              text: "List Berita",
-              icon: Icon(Icons.article),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 4),
+                      child: Icon(Icons.article),
+                    ),
+                    Text("List Berita"),
+                  ],
+                ),
+              ),
             ),
             Tab(
-              text: "List Pegawai",
-              icon: Icon(Icons.group),
+            child: SingleChildScrollView(// Custom layout for Tab
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 4),  // Control spacing between icon and text
+                    child: Icon(Icons.person),
+                  ),
+                  Text("Profil User"),
+                ],
+              ),
             ),
-            Tab(
-              text: "Profil User",
-              icon: Icon(Icons.person),
             ),
           ],
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
   }
 }

@@ -35,27 +35,27 @@ class ModelBerita {
 class Datum {
   String id;
   String judul;
-  String berita;
+  String konten;
   String gambar;
 
   Datum({
     required this.id,
     required this.judul,
-    required this.berita,
+    required this.konten,
     required this.gambar,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     id: json["id"],
     judul: json["judul"],
-    berita: json["berita"],
+    konten: json["konten"],
     gambar: json["gambar"],
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "judul": judul,
-    "berita": berita,
+    "konten": konten,
     "gambar": gambar,
   };
 }
